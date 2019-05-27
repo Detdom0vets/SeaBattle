@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/exit.png</file>
+        <file>img/field.png</file>
+        <file>img/hit.png</file>
+        <file>img/mainmenu.png</file>
+        <file>img/mainmenuicon.png</file>
+        <file>img/settings.png</file>
+        <file>img/esminec.png</file>
+        <file>img/kater.png</file>
+        <file>img/kreiser.png</file>
+        <file>img/linkor.png</file>
+        <file>img/miss.png</file>
+        <file>img/esminecV.png</file>
+        <file>img/kreiserV.png</file>
+        <file>img/linkorV.png</file>
+        <file>img/ship.png</file>
+        <file>img/fon1.png</file>
+        <file>img/fon2.png</file>
+        <file>img/fon3.png</file>
+        <file>img/close.png</file>
+        <file>img/onlyfield.png</file>
+        <file>img/shipcell.png</file>
+        <file>img/shiphit.png</file>
+    </qresource>
+</RCC>
