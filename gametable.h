@@ -54,6 +54,8 @@ public:
     void createHit();
     void passmove();
     void moveagain();
+    void RequestAreShipDied();
+    void CheckWin();
 
 signals:
     Q_SIGNAL void showmainwindow();
@@ -66,24 +68,20 @@ signals:
     Q_SIGNAL void MapRandPlayer();
     Q_SIGNAL void MapRandBot();
     Q_SIGNAL void NeedClearMap();
-    Q_SIGNAL void sendCanShoot();
+    Q_SIGNAL void SendCanShoot();
+    Q_SIGNAL void PRequestAreShipDied();
+    Q_SIGNAL void BRequestAreShipDied();
 
 public slots:
-     void plshipdied();
+     void PlayerShipDied();                                                 //Изменение лейбла количества кораблей
 
-     void takemap(cell* map);
+     void bbshot(int x, int y);                                             //выстрел бота
 
-     void bbshot(int x, int y);                                           //выстрел бота
+     void Shotwas(status sta);                                              //попал, уничтожил или нет бот
 
-     void Shotwas(status sta);                                            //попал, уничтожил или нет бот
+     void PlayerSetShip(int x, int y, orientation os, int lenght);          //постановка корабля игрока
 
-     void havewinner(type in);                                           //кто то победил
-
-     void btsetship(int x, int y, orientation os, int lenght);             //постановка корабля бота
-
-     void plsetship(int x, int y, orientation os, int lenght);             //постановка корабля игрока
-
-     void btshipdied(int x, int y, orientation os, int lenght);             //постановка погибшего корабля бота
+     void BotSetShip(int x, int y, orientation os, int lenght);             //постановка погибшего корабля бота
 
     void on_menuExit_triggered();
 

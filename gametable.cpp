@@ -9,69 +9,48 @@ GameTable::GameTable(QWidget *parent) :
     ui->setupUi(this);
     ui->label_closefield->setVisible(true);
 
-    fleets= new fleet;
-    //QObject::connect(fleets,SIGNAL(btshiphit(int, int, bool)),this,SLOT(bshot(int, int)));              //примает сигнал: координаты клетки корабля бота в которую попали и уничтожили ли его
-    //QObject::connect(fleets,SIGNAL(plshiphit(int, int, bool)),this,SLOT(bshot(int, int)));              //примает сигнал: координаты клетки корабля игрока в которую попали и уничтожили ли его
-    QObject::connect(fleets,SIGNAL(winn(type)),this,SLOT(havewinner(type)));                            //примает сигнал: что кто-то победил
-    QObject::connect(this,SIGNAL(CheckShip(int, int, type)),fleets,SLOT(CheckShip(int, int, type)));    //отправляет сигнал: проверить корабли
-    QObject::connect(fleets,SIGNAL(plshipdied()),this,SLOT(plshipdied()));                                                                     //примает сигнал: о смерти корабля игрока
-    QObject::connect(fleets,SIGNAL(btshipdied(int, int, orientation, int)),this,SLOT(btshipdied(int, int, orientation, int)));                    //примает сигнал: о смерти корабля бота
-    QObject::connect(this,SIGNAL(outsetship(int, int, orientation, int, type)),fleets,SLOT(setship(int, int, orientation, int, type)));         //отправляет сигнал: поставить корабль
-    QObject::connect(this, SIGNAL(NeedClearMap()), fleets, SLOT(CleanPlShips()));                                                               //отправляет сигнал: очистить корабли игрока
     grisha = new bot();
     QObject::connect(grisha,SIGNAL(bshot(int, int)),this,SLOT(bbshot(int, int)));                                               //принимает сигнал: о выстреле бота
-    QObject::connect(this,SIGNAL(sendMap(cell*)),grisha,SLOT(mapa(cell*)));                                                     //отправляет сигнал: карту игрока))
     QObject::connect(this,SIGNAL(sendlastturnwas(status)),grisha,SLOT(lastturnwas(status)));                                    //отправляет сигнал: попали ли бот
-    QObject::connect(this,SIGNAL(sendCanShoot()),grisha, SLOT(shooting()));                                                     //отправляет сигнал: можно стрелять
+    QObject::connect(this,SIGNAL(SendCanShoot()),grisha, SLOT(shooting()));                                                     //отправляет сигнал: можно стрелять
     mapPl = new Map(10);
-    QObject::connect(mapPl,SIGNAL(Shotwas(status)),this,SLOT(Shotwas(status)));                                                         //принимает сигнал: о выстреле
-    QObject::connect(mapPl,SIGNAL(setship(int, int, orientation, int)),this,SLOT(plsetship(int, int, orientation, int)));               //принимает сигнал: поставть корабль(для флота)
-    QObject::connect(mapPl,SIGNAL(sendingmap(cell*)),this,SLOT(takemap(cell*)));                                                        //принимает сигнал: карты игрока
-    QObject::connect(this,SIGNAL(bsshot(int, int)),mapPl,SLOT(shot(int, int)));                                                 //отправляет сигнал: о выстреле
-    QObject::connect(this,SIGNAL(MapRandPlayer()),mapPl,SLOT(MapRandPlayer()));                                                 //отправляет сигнал: сгенерировать карту
-    QObject::connect(this, SIGNAL(NeedClearMap()), mapPl, SLOT(MapClear()));                                                    //отправляет сигнал: очистить карту
+    QObject::connect(mapPl,SIGNAL(Shotwas(status)),this,SLOT(Shotwas(status)));                                                             //принимает сигнал: о выстреле
+    QObject::connect(mapPl,SIGNAL(SetShip(int, int, orientation, int)),this,SLOT(PlayerSetShip(int, int, orientation, int)));               //принимает сигнал: поставть корабль(для флота)
+    QObject::connect(mapPl,SIGNAL(SendingMap(cell* )), grisha,SLOT(TakeMap(cell*)));                                                        //принимает сигнал: карты игрока
+    QObject::connect(mapPl,SIGNAL(ShipDied(int, int, orientation, int)), this,SLOT(PlayerShipDied()));                                      //отправляет карту игрока боту
+    QObject::connect(this,SIGNAL(bsshot(int, int)),mapPl,SLOT(Shot(int, int)));                                                             //отправляет сигнал: о выстреле
+    QObject::connect(this,SIGNAL(MapRandPlayer()),mapPl,SLOT(MapRand()));                                                                   //отправляет сигнал: сгенерировать карту
+    QObject::connect(this, SIGNAL(NeedClearMap()), mapPl, SLOT(MapClear()));                                                                //отправляет сигнал: очистить карту
+    QObject::connect(this, SIGNAL(PRequestAreShipDied()), mapPl, SLOT(AreShipDead()));                                                      //отправляет сигнал: уничтожен ли корабль
     emit MapRandPlayer();
     mapBt = new Map(10);
-    QObject::connect(mapBt,SIGNAL(Shotwas(status)),this,SLOT(Shotwas(status)));                                                         //примает сигнал: поставить корабль (для флота)
-    QObject::connect(mapBt,SIGNAL(setship(int, int, orientation, int)),this,SLOT(btsetship(int, int, orientation, int)));               //примает сигнал: о выстреле
-    QObject::connect(this,SIGNAL(psshot(int, int)),mapBt,SLOT(shot(int, int)));                                                         //отправляет сигнал: выстрел игрока
-    QObject::connect(this,SIGNAL(MapRandBot()),mapBt,SLOT(MapRandPlayer()));                                                         //отправляет сигнал: сгенерировать карту
+    QObject::connect(mapBt,SIGNAL(Shotwas(status)),this,SLOT(Shotwas(status)));                                                             //примает сигнал: поставить корабль (для флота)
+    QObject::connect(mapBt,SIGNAL(ShipDied(int, int, orientation, int)),this,SLOT(BotSetShip(int, int, orientation, int)));                 //примает сигнал: о выстреле
+    QObject::connect(this,SIGNAL(psshot(int, int)),mapBt,SLOT(Shot(int, int)));                                                             //отправляет сигнал: выстрел игрока
+    QObject::connect(this,SIGNAL(MapRandBot()),mapBt,SLOT(MapRand()));                                                                      //отправляет сигнал: сгенерировать карту
+    QObject::connect(this, SIGNAL(BRequestAreShipDied()), mapBt, SLOT(AreShipDead()));                                                      //отправляет сигнал: уничтожен ли корабль
     emit MapRandBot();
 }
 
-void GameTable::havewinner(type in)
+void GameTable::CheckWin()
 {
-    switch (in)
-    {
-    case bots: QMessageBox::information(this, "Победа", "Вы выиграли!"); on_menuMainmenu_triggered(); break;
-    case players: QMessageBox::critical(this, "Поражение", "Вы проиграли!"); on_menuMainmenu_triggered(); break;
-    }
+    if (plship==0) {QMessageBox::critical(this, "Поражение", "Вы проиграли!"); on_menuMainmenu_triggered();}
+    if (btship==0) {QMessageBox::information(this, "Победа", "Вы выиграли!"); on_menuMainmenu_triggered();}
 }
 
-void GameTable::takemap(cell* map)
+void GameTable::PlayerSetShip(int x, int y, orientation os, int lenght)             //постановка корабля игрока  для флота (x, y корды)
 {
-    emit sendMap( map);
-}
-
-void GameTable::btsetship(int x, int y, orientation os, int lenght)             //постановка корабля бота для флота (x, y корды)
-{
-    emit outsetship( x,  y,  os,  lenght, bots);
-}
-
-void GameTable::plsetship(int x, int y, orientation os, int lenght)             //постановка корабля игрока  для флота (x, y корды)
-{
-
-    emit outsetship( x,  y,  os,  lenght, players);
     setship(x, y, os, lenght);
 }
 
-void GameTable::plshipdied()
+void GameTable::PlayerShipDied()
 {
     plship--;
     ui->leftplayership11->setNum(plship);
+    CheckWin();
 }
 
-void GameTable::btshipdied(int x, int y, orientation os, int lenght)
+void GameTable::BotSetShip(int x, int y, orientation os, int lenght)
 {
     btship--;
     ui->leftbotship11->setNum(btship);
@@ -98,6 +77,7 @@ void GameTable::btshipdied(int x, int y, orientation os, int lenght)
             countships=ff+1;
         } break;
     }
+    CheckWin();
 }
 
 void GameTable::Shotwas(status tr)
@@ -105,8 +85,17 @@ void GameTable::Shotwas(status tr)
     if (lastturn==bots) {sendlastturnwas(tr);}
     switch (tr)
     {
-    case Hit: createHit(); if (lastturn==bots) {emit CheckShip(ib, jb, players); moveagain();} else {emit CheckShip(ip, jp, bots); moveagain();}  break;
+    case Hit: createHit(); RequestAreShipDied();  moveagain();  break;
     case Empty: createMiss(); passmove(); break;
+    }
+}
+
+void GameTable::RequestAreShipDied()
+{
+    switch(lastturn)
+    {
+    case bots: PRequestAreShipDied(); break;
+    case players: BRequestAreShipDied(); break;
     }
 }
 
@@ -122,7 +111,7 @@ void GameTable::passmove()
     switch (lastturn)
     {
     case bots: ui->label_closefield->setVisible(false);  break;
-    case players: sendCanShoot();  break;
+    case players: SendCanShoot();  break;
     }
 }
 
@@ -130,7 +119,7 @@ void GameTable::moveagain()
 {
     switch (lastturn)
     {
-    case bots: sendCanShoot(); break;
+    case bots: SendCanShoot(); break;
     case players:  ui->label_closefield->setVisible(false); break;
     }
 }

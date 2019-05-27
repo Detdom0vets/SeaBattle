@@ -1,7 +1,6 @@
 #include "map.h"
 #include "utilities.h"
 
-
 Map::Map(int l)
 {
 
@@ -37,20 +36,20 @@ Map& Map::operator= (const Map &map)                                            
 }
 
 
-bool Map::CheckCanPut(int i, int j, orientation os, int shiplenght)             //проверка можно ли разместить корабль
+bool Map::CheckCanPut(int i, int j, orientation os, int lenght)             //проверка можно ли разместить корабль
 {
     switch (os)
     {
     case horizontal:
         {
-    for (int l=0; l<shiplenght; ++l)
+    for (int l=0; l<lenght; ++l)
     {
             if (field[j][i+l]!=clear) {return 0;}
     } break;
         }
     case vertical:
         {
-        for (int l=0; l<shiplenght; ++l)
+        for (int l=0; l<lenght; ++l)
     {
         if (field[j+l][i]!=clear) {return 0;}
     } break;
@@ -74,27 +73,33 @@ void Map::SetNearbyShip(int i, int j)                             //провер
 }
 
 
-void Map::ShipPut(int i, int j, orientation os, int shiplenght)   //размещение корабля (принимает x, y коорды)
+void Map::ShipPut(int x, int y, orientation os, int lenght)   //размещение корабля (принимает x, y коорды)
 {
-    for (int k=0; k<shiplenght; ++k)
+    for (int k=0; k<lenght; ++k)
     {
-        if (os == horizontal) { field[j][i+k]=shipp; SetNearbyShip(j, i+k);}
-        if (os == vertical) { field[j+k][i]=shipp; SetNearbyShip(j+k, i);}
+        if (os == horizontal) { field[y][x+k]=shipp; SetNearbyShip(y, x+k);}
+        if (os == vertical) { field[y+k][x]=shipp; SetNearbyShip(y+k, x);}
     }
-    emit setship(i, j, os, shiplenght);
+    this->CreateShip(x, y, os, lenght); emit SetShip(x, y, os, lenght);
 
 }
-void Map::shot(int i, int j)                                                    //выстрел (приходят i , j - корды )
+void Map::Shot(int x, int y)                                                    //выстрел (приходят i , j - корды )
 {
-    switch (field[i][j])
+    switch (field[x][y])
 {
-    case clear: field[i][j]=miss; emit Shotwas(Empty); break;
-    case shipnearby: field[i][j]=miss; emit Shotwas(Empty); break;
-    case shipp: field[i][j]=desship; emit Shotwas(Hit); break;
+    case clear: field[x][y]=miss; emit Shotwas(Empty); break;
+    case shipnearby: field[x][y]=miss; emit Shotwas(Empty); break;
+    case shipp: field[x][y]=desship; this->SetHit(y, x); emit Shotwas(Hit); break;
+    default: break;
 }
 }
 
-void Map::MapRandPlayer()                                                 //случайное размещение кораблей
+void Map::AreShipDead()
+{
+    if (this->CheckShips()) {emit ShipDied(this->frx(), this->fry(), this->fros(), this->frlenght());}
+}
+
+void Map::MapRand()                                                 //случайное размещение кораблей
 {
     int lenght=4;
     int g=1;
@@ -129,7 +134,7 @@ void Map::MapRandPlayer()                                                 //сл
         lenght--;
         g++;
     }
-    emit sendingmap(*field);
+    emit SendingMap(*field);
 
 }
 
@@ -150,6 +155,7 @@ void Map::MapClear()                                                            
         field[j][0]=end;
         field[j][11]=end;
     }
+    this->CleanShips();
 }
 
 

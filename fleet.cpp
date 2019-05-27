@@ -1,65 +1,81 @@
 #include "fleet.h"
 
-fleet::fleet(QObject *parent) : QObject(parent)
+fleet::fleet()
 {
-    bota = new ship[10];
-    playera = new ship[10];
+    Ships = new ship[10];
 }
 
-void fleet::createship(int x, int y, orientation os, int lenght, type in)           //принимает x, y коорды
+fleet::~fleet()
 {
-    switch (in)
+    delete [] Ships;
+    ShipsLeft=0;
+}
+
+void fleet::CreateShip(int x, int y, orientation os, int lenght)
+{
+    Ships[ShipsLeft].Reconstract(x,y,os,lenght);
+    AddShipCount();
+}
+
+void fleet::AddShipCount()
+{
+    ShipsLeft++;
+}
+
+void fleet::MinusShipCount()
+{
+    ShipsLeft--;
+}
+
+bool fleet::CheckShips()
+{
+    for (int i=0; i<ShipsLeft; i++)
     {
-    case bots:
-      {
-        int ff=btshlf;
-        bota[btshlf].reconstract(x,y,os,lenght);
-        btshlf=ff+1;
-        break;}
-    case players:
-    {
-        int ff=plshlf;
-        playera[plshlf].reconstract(x,y,os,lenght);
-        plshlf=ff+1;
-        break;}
+
+       if (Ships[i].CheckDeath()) { this->x=Ships[i].rx(); this->y=Ships[i].ry(); this->os=Ships[i].ros(); this->lenght=Ships[i].rlenght(); MinusShip(i); return 1;}
+
     }
+    return 0;
 }
 
-void fleet::checkwinner()
+void fleet::MinusShip(int n)
 {
-    if (plshlf==0) {emit winn(players);}
-    if (btshlf==0) {emit winn(bots);}
+    ship f1=Ships[ShipsLeft-1];
+    Ships[ShipsLeft-1]=Ships[n];
+    Ships[n]=f1;
+    MinusShipCount();
 }
 
-void fleet::setship(int x, int y, orientation os, int lenght, type in)
+void fleet::SetHit(int x, int y)
 {
-    switch (in)
+    for (int i=0; i<ShipsLeft; i++)
     {
-    case bots: createship(x, y, os, lenght, in); break;
-    case players: createship(x, y, os, lenght, in); break;
-    }
-}
-
-void fleet::CheckShip(int x, int y, type in)                //проверка кораблей (принимает i, j коорды)
-{
-    switch (in)
-    {
-    case players: for (int i=0; i<10; i++)
-        {
-            if (playera[i].checkhit(y, x))
-                {emit plshipdied(); plshlf--; checkwinner();}
-        } break;
-    case bots: for (int i=0; i<10; i++)
-        {
-            if (bota[i].checkhit( y, x))
-                {emit btshipdied(bota[i].rx(), bota[i].ry(), bota[i].ros(), bota[i].rlenght());
-                    btshlf--; checkwinner();}
-        } break;
+        Ships[i].HitShip(x, y);
     }
 }
 
 
-void fleet::CleanPlShips()
+void fleet::CleanShips()
 {
-    plshlf=0;
+    this->~fleet();
+}
+
+int fleet::frx()
+{
+    return x;
+}
+
+int fleet::fry()
+{
+    return y;
+}
+
+orientation fleet::fros()
+{
+    return os;
+}
+
+int fleet::frlenght()
+{
+    return lenght;
 }

@@ -1,32 +1,32 @@
 #ifndef FLEET_H
 #define FLEET_H
 
-#include <QObject>
 #include "utilities.h"
 #include "ship.h"
 
-class fleet : public QObject
+class fleet
 {
     public:
-    Q_OBJECT
-    int plshlf=0;                          //сколько кораблей у игрока
-    int btshlf=0;                          //сколько кораблей у бота
-    ship* bota;
-    ship* playera;
+    int ShipsLeft=0;                            //сколько кораблей
+    ship* Ships;                                //массив кораблей
+    int x, y;                                   //корды, ориентация и длина погибшего корабля
+    orientation os;
+    int lenght;
+
 public:
-    explicit fleet(QObject *parent = nullptr);
-    bool CheckDeath(int n, type in);
-    bool CheckHit(int n, int x, int y, type in);
-    void checkwinner();
-    void createship(int x, int y, orientation os, int lenght, type in);
-public slots:
-     void CheckShip(int x, int y, type in);
-     void setship(int x, int y, orientation os, int lenght, type in);
-     void CleanPlShips();
-signals:
-    Q_SIGNAL void btshipdied(int x, int y, orientation os, int lenght);
-    Q_SIGNAL void winn(type in);
-    Q_SIGNAL void plshipdied();
+    fleet();
+    ~fleet();
+    void AddShipCount();                                            //добавить число кораблей
+    void MinusShipCount();                                          //убавить число кораблей
+    void MinusShip(int n);                                          //убрать корабль
+    void CreateShip(int x, int y, orientation os, int lenght);      //создать корабль
+    void SetHit(int x, int y);                                      //получение повреждений
+    bool CheckShips();                                              //проверка кораблей
+    void CleanShips();                                              //очистка кораблей
+    int frx();                                                      //получения x
+    int fry();                                                      //получения y
+    orientation fros();                                             //получения os
+    int frlenght();                                                 //получения lenght
 };
 
 #endif // FLEET_H

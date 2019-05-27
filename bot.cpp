@@ -13,7 +13,7 @@ bot::bot()
     }
 }
 
-void bot::mapa(cell* map)
+void bot::TakeMap(cell* map)
 {
     this->map=map;
 }
