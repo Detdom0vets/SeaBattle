@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_bot_t {
     QByteArrayData data[12];
-    char stringdata0[61];
+    char stringdata0[64];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,17 +36,17 @@ QT_MOC_LITERAL(1, 4, 5), // "bshot"
 QT_MOC_LITERAL(2, 10, 0), // ""
 QT_MOC_LITERAL(3, 11, 1), // "x"
 QT_MOC_LITERAL(4, 13, 1), // "y"
-QT_MOC_LITERAL(5, 15, 4), // "mapa"
-QT_MOC_LITERAL(6, 20, 5), // "cell*"
-QT_MOC_LITERAL(7, 26, 3), // "map"
-QT_MOC_LITERAL(8, 30, 11), // "lastturnwas"
-QT_MOC_LITERAL(9, 42, 6), // "status"
-QT_MOC_LITERAL(10, 49, 2), // "tr"
-QT_MOC_LITERAL(11, 52, 8) // "shooting"
+QT_MOC_LITERAL(5, 15, 7), // "TakeMap"
+QT_MOC_LITERAL(6, 23, 5), // "cell*"
+QT_MOC_LITERAL(7, 29, 3), // "map"
+QT_MOC_LITERAL(8, 33, 11), // "lastturnwas"
+QT_MOC_LITERAL(9, 45, 6), // "status"
+QT_MOC_LITERAL(10, 52, 2), // "tr"
+QT_MOC_LITERAL(11, 55, 8) // "shooting"
 
     },
-    "bot\0bshot\0\0x\0y\0mapa\0cell*\0map\0lastturnwas\0"
-    "status\0tr\0shooting"
+    "bot\0bshot\0\0x\0y\0TakeMap\0cell*\0map\0"
+    "lastturnwas\0status\0tr\0shooting"
 };
 #undef QT_MOC_LITERAL
 
@@ -89,7 +89,7 @@ void bot::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->bshot((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 1: _t->mapa((*reinterpret_cast< cell*(*)>(_a[1]))); break;
+        case 1: _t->TakeMap((*reinterpret_cast< cell*(*)>(_a[1]))); break;
         case 2: _t->lastturnwas((*reinterpret_cast< status(*)>(_a[1]))); break;
         case 3: _t->shooting(); break;
         default: ;
