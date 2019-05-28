@@ -1,0 +1,15 @@
+release/main.o
+release/mainwindow.o
+release/settings.o
+release/gametable.o
+release/map.o
+release/utilities.o
+release/bot.o
+release/ship.o
+release/fleet.o
+release/qrc_res.o
+release/moc_mainwindow.o
+release/moc_settings.o
+release/moc_gametable.o
+release/moc_map.o
+release/moc_bot.o

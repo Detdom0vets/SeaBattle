@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Map_t {
-    QByteArrayData data[19];
-    char stringdata0[124];
+    QByteArrayData data[20];
+    char stringdata0[136];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,16 +46,17 @@ QT_MOC_LITERAL(11, 58, 10), // "SendingMap"
 QT_MOC_LITERAL(12, 69, 5), // "cell*"
 QT_MOC_LITERAL(13, 75, 5), // "field"
 QT_MOC_LITERAL(14, 81, 8), // "ShipDied"
-QT_MOC_LITERAL(15, 90, 7), // "MapRand"
-QT_MOC_LITERAL(16, 98, 4), // "Shot"
-QT_MOC_LITERAL(17, 103, 8), // "MapClear"
-QT_MOC_LITERAL(18, 112, 11) // "AreShipDead"
+QT_MOC_LITERAL(15, 90, 11), // "SendSetMiss"
+QT_MOC_LITERAL(16, 102, 7), // "MapRand"
+QT_MOC_LITERAL(17, 110, 4), // "Shot"
+QT_MOC_LITERAL(18, 115, 8), // "MapClear"
+QT_MOC_LITERAL(19, 124, 11) // "AreShipDead"
 
     },
     "Map\0Shotwas\0\0status\0sta\0SetShip\0x\0y\0"
     "orientation\0os\0lenght\0SendingMap\0cell*\0"
-    "field\0ShipDied\0MapRand\0Shot\0MapClear\0"
-    "AreShipDead"
+    "field\0ShipDied\0SendSetMiss\0MapRand\0"
+    "Shot\0MapClear\0AreShipDead"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,30 +66,32 @@ static const uint qt_meta_data_Map[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       4,       // signalCount
+       5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   54,    2, 0x06 /* Public */,
-       5,    4,   57,    2, 0x06 /* Public */,
-      11,    1,   66,    2, 0x06 /* Public */,
-      14,    4,   69,    2, 0x06 /* Public */,
+       1,    1,   59,    2, 0x06 /* Public */,
+       5,    4,   62,    2, 0x06 /* Public */,
+      11,    1,   71,    2, 0x06 /* Public */,
+      14,    4,   74,    2, 0x06 /* Public */,
+      15,    2,   83,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      15,    0,   78,    2, 0x0a /* Public */,
-      16,    2,   79,    2, 0x0a /* Public */,
-      17,    0,   84,    2, 0x0a /* Public */,
-      18,    0,   85,    2, 0x0a /* Public */,
+      16,    0,   88,    2, 0x0a /* Public */,
+      17,    2,   89,    2, 0x0a /* Public */,
+      18,    0,   94,    2, 0x0a /* Public */,
+      19,    0,   95,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 8, QMetaType::Int,    6,    7,    9,   10,
     QMetaType::Void, 0x80000000 | 12,   13,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 8, QMetaType::Int,    6,    7,    9,   10,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,    6,    7,
 
  // slots: parameters
     QMetaType::Void,
@@ -109,10 +112,11 @@ void Map::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 1: _t->SetShip((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< orientation(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         case 2: _t->SendingMap((*reinterpret_cast< cell*(*)>(_a[1]))); break;
         case 3: _t->ShipDied((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< orientation(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
-        case 4: _t->MapRand(); break;
-        case 5: _t->Shot((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 6: _t->MapClear(); break;
-        case 7: _t->AreShipDead(); break;
+        case 4: _t->SendSetMiss((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 5: _t->MapRand(); break;
+        case 6: _t->Shot((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 7: _t->MapClear(); break;
+        case 8: _t->AreShipDead(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -142,6 +146,13 @@ void Map::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
             using _t = void (Map::*)(int , int , orientation , int );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Map::ShipDied)) {
                 *result = 3;
+                return;
+            }
+        }
+        {
+            using _t = void (Map::*)(int , int );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Map::SendSetMiss)) {
+                *result = 4;
                 return;
             }
         }
@@ -179,13 +190,13 @@ int Map::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }
@@ -216,6 +227,13 @@ void Map::ShipDied(int _t1, int _t2, orientation _t3, int _t4)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)) };
     QMetaObject::activate(this, &staticMetaObject, 3, _a);
+}
+
+// SIGNAL 4
+void Map::SendSetMiss(int _t1, int _t2)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

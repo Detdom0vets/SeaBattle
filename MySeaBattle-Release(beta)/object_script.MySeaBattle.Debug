@@ -1,0 +1,15 @@
+debug/main.o
+debug/mainwindow.o
+debug/settings.o
+debug/gametable.o
+debug/map.o
+debug/utilities.o
+debug/bot.o
+debug/ship.o
+debug/fleet.o
+debug/qrc_res.o
+debug/moc_mainwindow.o
+debug/moc_settings.o
+debug/moc_gametable.o
+debug/moc_map.o
+debug/moc_bot.o
